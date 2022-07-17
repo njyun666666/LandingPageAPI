@@ -12,6 +12,7 @@ namespace LandingPageAPI.Models
         public string? Content { get; set; }
         public string? CopyRight { get; set; }
         public string? Item1 { get; set; }
+        public bool Enable { get; set; }
 
         public virtual TbSectionType? SectionType { get; set; }
     }

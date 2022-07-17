@@ -26,13 +26,13 @@ namespace LandingPageAPI.Models
         public virtual DbSet<TbSectionSetting> TbSectionSettings { get; set; } = null!;
         public virtual DbSet<TbSectionType> TbSectionTypes { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseMySql("name=ConnectionStrings:LandingPageDBConnection", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseMySql("name=ConnectionStrings:LandingPageDBConnection", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,18 +77,11 @@ namespace LandingPageAPI.Models
 
                 entity.ToTable("TbHeaderSetting");
 
-                entity.HasIndex(e => e.MenuId, "fk_TbHeaderSetting_MenuID_idx");
-
                 entity.Property(e => e.HeaderId).HasColumnName("HeaderID");
 
                 entity.Property(e => e.Logo).HasMaxLength(100);
 
-                entity.Property(e => e.MenuId).HasColumnName("MenuID");
-
-                entity.HasOne(d => d.Menu)
-                    .WithMany(p => p.TbHeaderSettings)
-                    .HasForeignKey(d => d.MenuId)
-                    .HasConstraintName("fk_TbHeaderSetting_MenuID");
+                entity.Property(e => e.MenuGroupId).HasColumnName("MenuGroupID");
             });
 
             modelBuilder.Entity<TbItem>(entity =>
@@ -138,11 +131,9 @@ namespace LandingPageAPI.Models
 
                 entity.HasIndex(e => e.MenuTypeId, "fk_TbMenu_MenuType_idx");
 
-                entity.HasIndex(e => e.MenuParentId, "idx_TbMenu_MenuParentID");
+                entity.HasIndex(e => new { e.MenuGroupId, e.Enable }, "idx_TbMenu_MenuGroupID_Enable");
 
                 entity.Property(e => e.MenuId).HasColumnName("MenuID");
-
-                entity.Property(e => e.Enable).HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.Icon).HasMaxLength(50);
 
@@ -150,11 +141,15 @@ namespace LandingPageAPI.Models
                     .HasMaxLength(100)
                     .HasColumnName("ImageURL");
 
+                entity.Property(e => e.MenuGroupId).HasColumnName("MenuGroupID");
+
                 entity.Property(e => e.MenuParentId).HasColumnName("MenuParentID");
 
                 entity.Property(e => e.MenuTypeId)
                     .HasMaxLength(50)
                     .HasColumnName("MenuTypeID");
+
+                entity.Property(e => e.Sort).HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.SubTitle).HasMaxLength(50);
 
