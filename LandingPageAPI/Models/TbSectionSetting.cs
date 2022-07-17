@@ -12,7 +12,6 @@ namespace LandingPageAPI.Models
 
         public int SectionId { get; set; }
         public string? SectionTypeId { get; set; }
-        public string? Container { get; set; }
         public string? BackgroundImage { get; set; }
         public string? BackgroundColor { get; set; }
         public string? Title { get; set; }

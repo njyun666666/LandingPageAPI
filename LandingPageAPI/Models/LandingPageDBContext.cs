@@ -79,7 +79,9 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.HeaderId).HasColumnName("HeaderID");
 
-                entity.Property(e => e.Logo).HasMaxLength(100);
+                entity.Property(e => e.LogoDark).HasMaxLength(100);
+
+                entity.Property(e => e.LogoLight).HasMaxLength(100);
 
                 entity.Property(e => e.MenuGroupId).HasColumnName("MenuGroupID");
             });
@@ -111,7 +113,7 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.Sort).HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.SubTitle).HasMaxLength(100);
+                entity.Property(e => e.SubTitle).HasMaxLength(200);
 
                 entity.Property(e => e.Target).HasMaxLength(10);
 
@@ -151,7 +153,7 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.Sort).HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.SubTitle).HasMaxLength(50);
+                entity.Property(e => e.SubTitle).HasMaxLength(200);
 
                 entity.Property(e => e.Target).HasMaxLength(10);
 
@@ -247,8 +249,6 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.BackgroundImage).HasMaxLength(100);
 
-                entity.Property(e => e.Container).HasMaxLength(10);
-
                 entity.Property(e => e.Content).HasMaxLength(500);
 
                 entity.Property(e => e.Item1).HasMaxLength(50);
@@ -257,7 +257,7 @@ namespace LandingPageAPI.Models
                     .HasMaxLength(50)
                     .HasColumnName("SectionTypeID");
 
-                entity.Property(e => e.SubTitle).HasMaxLength(100);
+                entity.Property(e => e.SubTitle).HasMaxLength(200);
 
                 entity.Property(e => e.Title).HasMaxLength(100);
             });

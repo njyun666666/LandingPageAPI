@@ -6,7 +6,8 @@ namespace LandingPageAPI.ViewModels
 	{
 		public int HeaderId { get; set; }
 		public int? MenuGroupId { get; set; }
-		public string? Logo { get; set; }
+		public string? LogoLight { get; set; }
+		public string? LogoDark { get; set; }
 
 		public List<MenuViewModel>? Menus { get; set; }
 	}

@@ -39,7 +39,8 @@ namespace LandingPageAPI.Controllers
 			HeaderViewModel result = new HeaderViewModel()
 			{
 				HeaderId = header.HeaderId,
-				Logo = header.Logo
+				LogoLight = header.LogoLight,
+				LogoDark = header.LogoDark,
 			};
 
 			if (header.MenuGroupId != null)
