@@ -50,7 +50,7 @@ namespace LandingPageAPI.Controllers
 				result.Menus = SetMenu(null).ToList();
 			}
 
-			return Ok(result);
+			return result;
 		}
 
 		private List<MenuViewModel> SetMenu(int? menuParentID)

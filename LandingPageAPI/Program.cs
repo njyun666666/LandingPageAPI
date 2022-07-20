@@ -1,4 +1,5 @@
 using LandingPageAPI.Models;
+using LandingPageAPI.Mappings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ builder.Services.AddDbContext<LandingPageDBContext>(options =>
 {
 	options.UseMySql(builder.Configuration.GetConnectionString("LandingPageDBConnection"), Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
 });
+
+builder.Services.AddAutoMapper(typeof(PageProfile));
 
 var app = builder.Build();
 

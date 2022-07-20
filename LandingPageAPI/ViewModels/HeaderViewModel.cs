@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace LandingPageAPI.ViewModels
 {
 	public class HeaderViewModel
@@ -22,7 +21,6 @@ namespace LandingPageAPI.ViewModels
 		public string? Icon { get; set; }
 		public string? ImageUrl { get; set; }
 		public int Sort { get; set; }
-		[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 		public List<MenuViewModel>? Childrens { get; set; }
 
 	}

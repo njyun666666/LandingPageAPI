@@ -19,20 +19,13 @@ namespace LandingPageAPI.Models
         public virtual DbSet<TbFooterSetting> TbFooterSettings { get; set; } = null!;
         public virtual DbSet<TbHeaderSetting> TbHeaderSettings { get; set; } = null!;
         public virtual DbSet<TbItem> TbItems { get; set; } = null!;
+        public virtual DbSet<TbItemGroup> TbItemGroups { get; set; } = null!;
         public virtual DbSet<TbMenu> TbMenus { get; set; } = null!;
         public virtual DbSet<TbMenuType> TbMenuTypes { get; set; } = null!;
         public virtual DbSet<TbPage> TbPages { get; set; } = null!;
         public virtual DbSet<TbPageSection> TbPageSections { get; set; } = null!;
         public virtual DbSet<TbSectionSetting> TbSectionSettings { get; set; } = null!;
         public virtual DbSet<TbSectionType> TbSectionTypes { get; set; } = null!;
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseMySql("name=ConnectionStrings:LandingPageDBConnection", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
-        //    }
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -99,19 +92,13 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.Content).HasMaxLength(500);
 
-                entity.Property(e => e.Enable).HasDefaultValueSql("'0'");
-
                 entity.Property(e => e.Icon).HasMaxLength(50);
 
                 entity.Property(e => e.ImageUrl)
                     .HasMaxLength(100)
                     .HasColumnName("ImageURL");
 
-                entity.Property(e => e.ItemGroupId)
-                    .HasMaxLength(50)
-                    .HasColumnName("ItemGroupID");
-
-                entity.Property(e => e.Sort).HasDefaultValueSql("'0'");
+                entity.Property(e => e.ItemGroupId).HasColumnName("ItemGroupID");
 
                 entity.Property(e => e.SubTitle).HasMaxLength(200);
 
@@ -122,6 +109,24 @@ namespace LandingPageAPI.Models
                 entity.Property(e => e.Url)
                     .HasMaxLength(100)
                     .HasColumnName("URL");
+
+                entity.HasOne(d => d.ItemGroup)
+                    .WithMany(p => p.TbItems)
+                    .HasForeignKey(d => d.ItemGroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_TbItem_ItemGroupID");
+            });
+
+            modelBuilder.Entity<TbItemGroup>(entity =>
+            {
+                entity.HasKey(e => e.ItemGroupId)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("TbItemGroup");
+
+                entity.Property(e => e.ItemGroupId).HasColumnName("ItemGroupID");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
             });
 
             modelBuilder.Entity<TbMenu>(entity =>
@@ -194,11 +199,7 @@ namespace LandingPageAPI.Models
                     .HasMaxLength(200)
                     .HasComment("網頁描述");
 
-                entity.Property(e => e.Enable).HasDefaultValueSql("'0'");
-
-                entity.Property(e => e.HeaderColorMode).HasMaxLength(10);
-
-                entity.Property(e => e.IsIndex).HasComment("首頁");
+                entity.Property(e => e.HeaderColorMode).HasMaxLength(50);
 
                 entity.Property(e => e.Path)
                     .HasMaxLength(50)
@@ -213,9 +214,9 @@ namespace LandingPageAPI.Models
             {
                 entity.ToTable("TbPageSection");
 
-                entity.HasIndex(e => e.PageId, "PageID");
+                entity.HasIndex(e => e.PageId, "TbPageSection_ibfk_1");
 
-                entity.HasIndex(e => e.SectionId, "SectionID");
+                entity.HasIndex(e => e.SectionId, "TbPageSection_ibfk_2");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -223,16 +224,16 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.SectionId).HasColumnName("SectionID");
 
-                entity.Property(e => e.Sort).HasDefaultValueSql("'0'");
-
                 entity.HasOne(d => d.Page)
                     .WithMany(p => p.TbPageSections)
                     .HasForeignKey(d => d.PageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TbPageSection_ibfk_1");
 
                 entity.HasOne(d => d.Section)
                     .WithMany(p => p.TbPageSections)
                     .HasForeignKey(d => d.SectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TbPageSection_ibfk_2");
             });
 
@@ -243,6 +244,8 @@ namespace LandingPageAPI.Models
 
                 entity.ToTable("TbSectionSetting");
 
+                entity.HasIndex(e => e.Item1, "fk_TbSectionSetting_Item1_idx");
+
                 entity.Property(e => e.SectionId).HasColumnName("SectionID");
 
                 entity.Property(e => e.BackgroundColor).HasMaxLength(10);
@@ -251,8 +254,6 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.Content).HasMaxLength(500);
 
-                entity.Property(e => e.Item1).HasMaxLength(50);
-
                 entity.Property(e => e.SectionTypeId)
                     .HasMaxLength(50)
                     .HasColumnName("SectionTypeID");
@@ -260,6 +261,11 @@ namespace LandingPageAPI.Models
                 entity.Property(e => e.SubTitle).HasMaxLength(200);
 
                 entity.Property(e => e.Title).HasMaxLength(100);
+
+                entity.HasOne(d => d.Item1Navigation)
+                    .WithMany(p => p.TbSectionSettings)
+                    .HasForeignKey(d => d.Item1)
+                    .HasConstraintName("fk_TbSectionSetting_Item1");
             });
 
             modelBuilder.Entity<TbSectionType>(entity =>
