@@ -16,6 +16,7 @@
 		/// </summary>
 		public string? Description { get; set; }
 		public string? HeaderColorMode { get; set; }
+		public bool BodyNavFixed { get; set; }
 		public ICollection<PageSectionViewModel>? TbPageSections { get; set; }
 
 	}

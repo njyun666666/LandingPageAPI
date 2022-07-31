@@ -25,6 +25,7 @@ namespace LandingPageAPI.Models
         public string? Description { get; set; }
         public string? HeaderColorMode { get; set; }
         public bool Enable { get; set; }
+        public bool BodyNavFixed { get; set; }
 
         public virtual ICollection<TbPageSection> TbPageSections { get; set; }
     }
