@@ -254,6 +254,8 @@ namespace LandingPageAPI.Models
 
                 entity.Property(e => e.Content).HasMaxLength(500);
 
+                entity.Property(e => e.ParticleIcon).HasMaxLength(50);
+
                 entity.Property(e => e.SectionTypeId)
                     .HasMaxLength(50)
                     .HasColumnName("SectionTypeID");

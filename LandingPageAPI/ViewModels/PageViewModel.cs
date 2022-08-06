@@ -40,6 +40,7 @@
 		public string? Title { get; set; }
 		public string? SubTitle { get; set; }
 		public string? Content { get; set; }
+		public string? ParticleIcon { get; set; }
 		public int? Item1 { get; set; }
 		public virtual ItemGroupViewModel? Item1Navigation { get; set; }
 	}
