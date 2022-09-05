@@ -11,6 +11,7 @@ namespace LandingPageAPI.Models
         }
 
         public string SectionTypeId { get; set; } = null!;
+        public string? Description { get; set; }
 
         public virtual ICollection<TbFooterSetting> TbFooterSettings { get; set; }
     }

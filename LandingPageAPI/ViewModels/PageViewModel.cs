@@ -42,7 +42,9 @@
 		public string? Content { get; set; }
 		public string? ParticleIcon { get; set; }
 		public int? Item1 { get; set; }
+		public int? Item2 { get; set; }
 		public virtual ItemGroupViewModel? Item1Navigation { get; set; }
+		public virtual ItemGroupViewModel? Item2Navigation { get; set; }
 	}
 
 	public class ItemGroupViewModel

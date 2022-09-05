@@ -17,10 +17,12 @@ namespace LandingPageAPI.Models
         public string? Title { get; set; }
         public string? SubTitle { get; set; }
         public string? Content { get; set; }
-        public int? Item1 { get; set; }
         public string? ParticleIcon { get; set; }
+        public int? Item1 { get; set; }
+        public int? Item2 { get; set; }
 
         public virtual TbItemGroup? Item1Navigation { get; set; }
+        public virtual TbItemGroup? Item2Navigation { get; set; }
         public virtual ICollection<TbPageSection> TbPageSections { get; set; }
     }
 }

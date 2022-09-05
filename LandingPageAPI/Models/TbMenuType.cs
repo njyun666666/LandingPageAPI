@@ -11,6 +11,7 @@ namespace LandingPageAPI.Models
         }
 
         public string MenuTypeId { get; set; } = null!;
+        public string? Description { get; set; }
 
         public virtual ICollection<TbMenu> TbMenus { get; set; }
     }

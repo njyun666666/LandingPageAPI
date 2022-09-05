@@ -184,6 +184,8 @@ namespace LandingPageAPI.Models
                 entity.Property(e => e.MenuTypeId)
                     .HasMaxLength(50)
                     .HasColumnName("MenuTypeID");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
             });
 
             modelBuilder.Entity<TbPage>(entity =>
@@ -244,7 +246,9 @@ namespace LandingPageAPI.Models
 
                 entity.ToTable("TbSectionSetting");
 
-                entity.HasIndex(e => e.Item1, "fk_TbSectionSetting_Item1_idx");
+                entity.HasIndex(e => e.Item2, "TbSectionSetting_Item2_idx");
+
+                entity.HasIndex(e => new { e.Item1, e.Item2 }, "fk_TbSectionSetting_Item1_idx");
 
                 entity.Property(e => e.SectionId).HasColumnName("SectionID");
 
@@ -265,9 +269,14 @@ namespace LandingPageAPI.Models
                 entity.Property(e => e.Title).HasMaxLength(100);
 
                 entity.HasOne(d => d.Item1Navigation)
-                    .WithMany(p => p.TbSectionSettings)
+                    .WithMany(p => p.TbSectionSettingItem1Navigations)
                     .HasForeignKey(d => d.Item1)
                     .HasConstraintName("fk_TbSectionSetting_Item1");
+
+                entity.HasOne(d => d.Item2Navigation)
+                    .WithMany(p => p.TbSectionSettingItem2Navigations)
+                    .HasForeignKey(d => d.Item2)
+                    .HasConstraintName("fk_TbSectionSetting_Item2");
             });
 
             modelBuilder.Entity<TbSectionType>(entity =>
@@ -280,6 +289,8 @@ namespace LandingPageAPI.Models
                 entity.Property(e => e.SectionTypeId)
                     .HasMaxLength(50)
                     .HasColumnName("SectionTypeID");
+
+                entity.Property(e => e.Description).HasMaxLength(20);
             });
 
             OnModelCreatingPartial(modelBuilder);
