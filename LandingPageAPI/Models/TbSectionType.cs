@@ -5,14 +5,7 @@ namespace LandingPageAPI.Models
 {
     public partial class TbSectionType
     {
-        public TbSectionType()
-        {
-            TbFooterSettings = new HashSet<TbFooterSetting>();
-        }
-
         public string SectionTypeId { get; set; } = null!;
         public string? Description { get; set; }
-
-        public virtual ICollection<TbFooterSetting> TbFooterSettings { get; set; }
     }
 }

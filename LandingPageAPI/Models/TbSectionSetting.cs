@@ -7,6 +7,7 @@ namespace LandingPageAPI.Models
     {
         public TbSectionSetting()
         {
+            TbFooterSettings = new HashSet<TbFooterSetting>();
             TbPageSections = new HashSet<TbPageSection>();
         }
 
@@ -23,6 +24,7 @@ namespace LandingPageAPI.Models
 
         public virtual TbItemGroup? Item1Navigation { get; set; }
         public virtual TbItemGroup? Item2Navigation { get; set; }
+        public virtual ICollection<TbFooterSetting> TbFooterSettings { get; set; }
         public virtual ICollection<TbPageSection> TbPageSections { get; set; }
     }
 }

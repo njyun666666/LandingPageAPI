@@ -39,28 +39,17 @@ namespace LandingPageAPI.Models
 
                 entity.ToTable("TbFooterSetting");
 
-                entity.HasIndex(e => e.SectionTypeId, "fk_TbFooterSetting_SectionTypeID_idx");
+                entity.HasIndex(e => e.SectionId, "fk_TbFooterSetting_SectionTypeID_idx");
 
                 entity.Property(e => e.FooterId).HasColumnName("FooterID");
 
-                entity.Property(e => e.Content).HasMaxLength(500);
+                entity.Property(e => e.SectionId).HasColumnName("SectionID");
 
-                entity.Property(e => e.CopyRight).HasMaxLength(100);
-
-                entity.Property(e => e.Item1).HasMaxLength(50);
-
-                entity.Property(e => e.Logo).HasMaxLength(100);
-
-                entity.Property(e => e.SectionTypeId)
-                    .HasMaxLength(50)
-                    .HasColumnName("SectionTypeID");
-
-                entity.Property(e => e.Title).HasMaxLength(100);
-
-                entity.HasOne(d => d.SectionType)
+                entity.HasOne(d => d.Section)
                     .WithMany(p => p.TbFooterSettings)
-                    .HasForeignKey(d => d.SectionTypeId)
-                    .HasConstraintName("fk_TbFooterSetting_SectionTypeID");
+                    .HasForeignKey(d => d.SectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_TbFooterSetting_SectionID");
             });
 
             modelBuilder.Entity<TbHeaderSetting>(entity =>
