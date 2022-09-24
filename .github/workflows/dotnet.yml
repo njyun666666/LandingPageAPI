@@ -1,0 +1,44 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Publish
+      run: dotnet publish LandingPageAPI/LandingPageAPI.csproj -c Release -o './app'
+    - name: Create opensshkey 
+      run : sudo echo '${{ secrets.GCP_VM_SSH }}' > opensshkey
+    - name: Delete Existing Files
+      run : sudo ssh -i opensshkey -o StrictHostKeyChecking=no ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} 'sudo rm -rf /var/www/LandingPageAPI/www/* && sudo chmod 775 /var/www/LandingPageAPI/www'
+    - name: Compress and Copy New Files to server
+      run : |
+            cd app
+            tar -czvf ../app.tar.gz ./
+            cd ..
+            sudo scp -v -i opensshkey -o StrictHostKeyChecking=no -r app.tar.gz ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }}:/var/www/LandingPageAPI/www
+    - name: Uncompress new Files
+      run : sudo ssh -i opensshkey -o StrictHostKeyChecking=no ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} 'cd /var/www/LandingPageAPI/www && sudo tar -xzvf app.tar.gz && sudo rm app.tar.gz'
+    - name: copy appsetting
+      run : sudo ssh -i opensshkey -o StrictHostKeyChecking=no ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} 'sudo cp /var/www/LandingPageAPI/appsettings.Production.json /var/www/LandingPageAPI/www/appsettings.Production.json'
+    - name: change file group
+      run : sudo ssh -i opensshkey -o StrictHostKeyChecking=no ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} 'sudo chgrp -R www-data /var/www/LandingPageAPI/www/'
+    - name: restart service
+      run : sudo ssh -i opensshkey -o StrictHostKeyChecking=no ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_HOST }} 'sudo systemctl restart LandingPageAPI.service'
+
