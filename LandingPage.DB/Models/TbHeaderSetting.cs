@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LandingPageAPI.Models
+namespace LandingPageDB.Models
 {
     public partial class TbHeaderSetting
     {

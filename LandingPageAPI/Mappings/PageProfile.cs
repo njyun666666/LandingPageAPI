@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using LandingPageAPI.Models;
 using LandingPageAPI.ViewModels;
+using LandingPageDB.Models;
 
 namespace LandingPageAPI.Mappings
 {

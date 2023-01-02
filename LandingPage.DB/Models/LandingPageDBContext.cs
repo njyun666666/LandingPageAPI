@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace LandingPageAPI.Models
+namespace LandingPageDB.Models
 {
     public partial class LandingPageDBContext : DbContext
     {

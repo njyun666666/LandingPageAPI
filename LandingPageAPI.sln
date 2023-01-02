@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandingPageAPI", "LandingPageAPI\LandingPageAPI.csproj", "{6AF48587-1716-4FDF-8DA3-916749DABC78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPageAPI", "LandingPageAPI\LandingPageAPI.csproj", "{6AF48587-1716-4FDF-8DA3-916749DABC78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPage.Core", "LandingPage.Core\LandingPage.Core.csproj", "{8D6FDDE2-0C17-45F9-B194-3AEEE990F400}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPage.DB", "LandingPage.DB\LandingPage.DB.csproj", "{42C92BD6-D625-4973-8BAA-12A953E95557}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6AF48587-1716-4FDF-8DA3-916749DABC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AF48587-1716-4FDF-8DA3-916749DABC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AF48587-1716-4FDF-8DA3-916749DABC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D6FDDE2-0C17-45F9-B194-3AEEE990F400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D6FDDE2-0C17-45F9-B194-3AEEE990F400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D6FDDE2-0C17-45F9-B194-3AEEE990F400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D6FDDE2-0C17-45F9-B194-3AEEE990F400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42C92BD6-D625-4973-8BAA-12A953E95557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42C92BD6-D625-4973-8BAA-12A953E95557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42C92BD6-D625-4973-8BAA-12A953E95557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42C92BD6-D625-4973-8BAA-12A953E95557}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
