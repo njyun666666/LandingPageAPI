@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LandingPage.DB\LandingPage.DB.csproj" />
-    <ProjectReference Include="..\LandingPageDB\LandingPage.DB.csproj" />
   </ItemGroup>
 
   <ItemGroup>
