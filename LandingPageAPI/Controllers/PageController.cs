@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LandingPageAPI.Models;
 using AutoMapper;
 using LandingPageAPI.ViewModels;
+using LandingPageDB.Models;
 
 namespace LandingPageAPI.Controllers
 {
