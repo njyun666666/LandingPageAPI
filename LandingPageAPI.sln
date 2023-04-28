@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPage.Core", "Landing
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPage.DB", "LandingPage.DB\LandingPage.DB.csproj", "{42C92BD6-D625-4973-8BAA-12A953E95557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LandingPageAdminAPI", "LandingPageAdminAPI\LandingPageAdminAPI.csproj", "{4E658BA0-B1CD-4497-87BE-28FA76B8A5E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LandingPageAdminAPI", "LandingPageAdminAPI\LandingPageAdminAPI.csproj", "{4E658BA0-B1CD-4497-87BE-28FA76B8A5E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

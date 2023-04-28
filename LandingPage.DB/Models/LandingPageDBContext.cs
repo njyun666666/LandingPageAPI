@@ -22,8 +22,11 @@ namespace LandingPageDB.Models
         public virtual DbSet<TbItemGroup> TbItemGroups { get; set; } = null!;
         public virtual DbSet<TbMenu> TbMenus { get; set; } = null!;
         public virtual DbSet<TbMenuType> TbMenuTypes { get; set; } = null!;
+        public virtual DbSet<TbOrgRole> TbOrgRoles { get; set; } = null!;
+        public virtual DbSet<TbOrgUser> TbOrgUsers { get; set; } = null!;
         public virtual DbSet<TbPage> TbPages { get; set; } = null!;
         public virtual DbSet<TbPageSection> TbPageSections { get; set; } = null!;
+        public virtual DbSet<TbRefreshToken> TbRefreshTokens { get; set; } = null!;
         public virtual DbSet<TbSectionSetting> TbSectionSettings { get; set; } = null!;
         public virtual DbSet<TbSectionType> TbSectionTypes { get; set; } = null!;
 
@@ -147,7 +150,10 @@ namespace LandingPageDB.Models
 
                 entity.Property(e => e.Sort).HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.SubTitle).HasMaxLength(200);
+                entity.Property(e => e.SubTitle)
+                    .HasMaxLength(200)
+                    .UseCollation("utf8mb3_general_ci")
+                    .HasCharSet("utf8mb3");
 
                 entity.Property(e => e.Target).HasMaxLength(10);
 
@@ -175,6 +181,71 @@ namespace LandingPageDB.Models
                     .HasColumnName("MenuTypeID");
 
                 entity.Property(e => e.Description).HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<TbOrgRole>(entity =>
+            {
+                entity.HasKey(e => e.Rid)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("TbOrgRole");
+
+                entity.Property(e => e.Rid)
+                    .HasMaxLength(50)
+                    .HasColumnName("RID");
+
+                entity.Property(e => e.RoleName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TbOrgUser>(entity =>
+            {
+                entity.HasKey(e => e.Uid)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("TbOrgUser");
+
+                entity.Property(e => e.Uid)
+                    .HasMaxLength(50)
+                    .HasColumnName("UID");
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreateUid)
+                    .HasMaxLength(50)
+                    .HasColumnName("CreateUID");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("EMail");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Passwrod).HasMaxLength(255);
+
+                entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdateUid)
+                    .HasMaxLength(50)
+                    .HasColumnName("UpdateUID");
+
+                entity.HasMany(d => d.Rids)
+                    .WithMany(p => p.Uids)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "TbOrgRoleUser",
+                        l => l.HasOne<TbOrgRole>().WithMany().HasForeignKey("Rid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("TbOrgRoleUsers_ibfk_2"),
+                        r => r.HasOne<TbOrgUser>().WithMany().HasForeignKey("Uid").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("TbOrgRoleUsers_ibfk_1"),
+                        j =>
+                        {
+                            j.HasKey("Uid", "Rid").HasName("PRIMARY").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+                            j.ToTable("TbOrgRoleUsers");
+
+                            j.HasIndex(new[] { "Rid" }, "RID");
+
+                            j.IndexerProperty<string>("Uid").HasMaxLength(50).HasColumnName("UID");
+
+                            j.IndexerProperty<string>("Rid").HasMaxLength(50).HasColumnName("RID");
+                        });
             });
 
             modelBuilder.Entity<TbPage>(entity =>
@@ -226,6 +297,20 @@ namespace LandingPageDB.Models
                     .HasForeignKey(d => d.SectionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("TbPageSection_ibfk_2");
+            });
+
+            modelBuilder.Entity<TbRefreshToken>(entity =>
+            {
+                entity.HasKey(e => e.RefreshToken)
+                    .HasName("PRIMARY");
+
+                entity.ToTable("TbRefreshToken");
+
+                entity.Property(e => e.ExpireTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Uid)
+                    .HasMaxLength(255)
+                    .HasColumnName("UID");
             });
 
             modelBuilder.Entity<TbSectionSetting>(entity =>
