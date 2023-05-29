@@ -35,8 +35,8 @@ namespace LandingPageAdminAPI.Controllers
 		[HttpPost]
 		public async Task<ActionResult<TokenViewModel>> Index(LoginModel login)
 		{
-			login.Email = "admin@example.com";
-			login.Password = "Demo123456";
+			//login.Email = "admin@example.com";
+			//login.Password = "Demo123456";
 
 			string encodingPW = EncodingHepler.ComputeHMACSHA256(login.Password, _config.AdminAPIKey());
 			var user = await _context.TbOrgUsers.FirstOrDefaultAsync(x => x.Email == login.Email && x.Enable && x.Passwrod == encodingPW);
@@ -53,8 +53,8 @@ namespace LandingPageAdminAPI.Controllers
 		}
 
 		// POST: api/Login/RefreshToken
-		[HttpPost("RefreshToken")]
-		public async Task<ActionResult> RefreshToken(RefreshTokenModel refreshToken)
+		[HttpPost(nameof(RefreshToken))]
+		public async Task<ActionResult<TokenViewModel>> RefreshToken(RefreshTokenModel refreshToken)
 		{
 			var tbRefresh = await _context.TbRefreshTokens.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken.refresh_token);
 
@@ -98,6 +98,11 @@ namespace LandingPageAdminAPI.Controllers
 			foreach (var role in roles)
 			{
 				claims.Add(new Claim("roles", role));
+			}
+
+			if (!string.IsNullOrWhiteSpace(user.PhotoUrl))
+			{
+				claims.Add(new Claim("photoURL", user.PhotoUrl));
 			}
 
 			string refresh_token = Guid.NewGuid().ToString();

@@ -7,41 +7,19 @@ namespace LandingPageAdminAPI.Jwt
 {
 	public class JwtHelper
 	{
-		private readonly IConfiguration Configuration;
+		private readonly IConfiguration _config;
 
-		public JwtHelper(IConfiguration configuration)
+		public JwtHelper(IConfiguration config)
 		{
-			this.Configuration = configuration;
+			_config = config;
 		}
 
 		public string GenerateToken(string userName, List<Claim> claims, int expireMinutes = 30)
 		{
-			var issuer = Configuration.GetValue<string>("JwtSettings:Issuer");
-			var signKey = Configuration.GetValue<string>("JwtSettings:SignKey");
-
-			// Configuring "Claims" to your JWT Token
-			//var claims = new List<Claim>();
-
-			// In RFC 7519 (Section#4), there are defined 7 built-in Claims, but we mostly use 2 of them.
-			//claims.Add(new Claim(JwtRegisteredClaimNames.Iss, issuer));
+			var issuer = _config.GetValue<string>("JwtSettings:Issuer");
+			var signKey = _config.GetValue<string>("JwtSettings:SignKey");
 			claims.Add(new Claim(JwtRegisteredClaimNames.Sub, userName)); // User.Identity.Name
-			//claims.Add(new Claim(JwtRegisteredClaimNames.Aud, "The Audience"));
-			//claims.Add(new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(30).ToUnixTimeSeconds().ToString()));
-			//claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())); // 必須為數字
-			//claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString())); // 必須為數字
 			claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())); // JWT ID
-
-			// The "NameId" claim is usually unnecessary.
-			//claims.Add(new Claim(JwtRegisteredClaimNames.NameId, userName));
-
-			// This Claim can be replaced by JwtRegisteredClaimNames.Sub, so it's redundant.
-			//claims.Add(new Claim(ClaimTypes.Name, userName));
-
-			// TODO: You can define your "roles" to your Claims.
-			//claims.Add(new Claim("roles", "Admin"));
-			//claims.Add(new Claim("roles", "Users"));
-
-			//claims.Add(new Claim("TestClaim", "123"));
 
 			var userClaimsIdentity = new ClaimsIdentity(claims);
 
@@ -56,9 +34,6 @@ namespace LandingPageAdminAPI.Jwt
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
 				Issuer = issuer,
-				//Audience = issuer, // Sometimes you don't have to define Audience.
-				//NotBefore = DateTime.Now, // Default is DateTime.Now
-				//IssuedAt = DateTime.Now, // Default is DateTime.Now
 				Subject = userClaimsIdentity,
 				Expires = DateTime.Now.AddMinutes(expireMinutes),
 				SigningCredentials = signingCredentials

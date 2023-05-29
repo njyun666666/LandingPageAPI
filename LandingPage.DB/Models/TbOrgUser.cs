@@ -15,6 +15,7 @@ namespace LandingPageDB.Models
         public string Email { get; set; } = null!;
         public string? Passwrod { get; set; }
         public bool Enable { get; set; }
+        public string? PhotoUrl { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? CreateUid { get; set; }
         public DateTime? UpdateDate { get; set; }

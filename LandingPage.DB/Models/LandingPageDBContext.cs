@@ -222,6 +222,10 @@ namespace LandingPageDB.Models
 
                 entity.Property(e => e.Passwrod).HasMaxLength(255);
 
+                entity.Property(e => e.PhotoUrl)
+                    .HasMaxLength(255)
+                    .HasColumnName("PhotoURL");
+
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UpdateUid)
